@@ -1,0 +1,56 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form">
+	<Dialog title="Characteristics Option Percentage Allocation" contentWidth="800px" titleAlignment="Center">
+    
+
+ <!-- <VBox class="sapUiSmallMargin"> -->
+            <!-- <f:SimpleForm id="FormToolbar" editable="true" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="3" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="1" columnsM="1" singleContainerFullSize="false" ariaLabelledBy="Title1">
+                <f:content> -->
+                <Bar>
+                <contentLeft>
+                    <Label text="Characteristic Name" labelFor="idCharName" id="idLabelText"/>
+                    <MultiInput id="idCharName" value="" width="500px" valueHelpOnly="true" placeholder="Characteristic Name" showValueHelp="true" valueHelpRequest="handleValueHelp" class="inputClass"/>  
+                    <Label text=""/>        
+                    </contentLeft>
+                    </Bar>         
+                    <VBox items="{path:'/setPanel'}" id="idVBox" visible="false" >
+                    <Panel id="_IDGenPanel1" expandable="true" expanded="false" headerText="{CHAR_NAME}"  >
+                    <content>
+                    <Table id="" items="{path: 'child'}" growingScrollToLoad="true" growingThreshold="1000" growing="true" rememberSelections="false" itemPress="onhandlePress" mode="SingleSelectMaster" selectionChange="onhandlePress" sticky="ColumnHeaders">
+                                <columns>
+                                    <Column hAlign="Center" vAlign="Middle">
+                                        <Text text="Characteristic Value" />
+                                    </Column>
+                                    <Column  hAlign="Center" vAlign="Middle">
+                                        <Text  text="Option Percentage"/>
+                                    </Column>
+                                    
+                                </columns>
+                                <items>
+                                    <ColumnListItem >
+                                        <cells>
+                                        <VBox>
+                                            <Text  text="{CHAR_VALUE} " />
+                                            <Text  text="{CHARVAL_DESC}"/>
+                                            </VBox>
+                                            <Input  value="" enabled="true" liveChange="onOptEnter" />
+                                            
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+
+
+                    </content>
+                    </Panel>
+                    </VBox>
+
+               <!-- </f:content>
+            </f:SimpleForm> -->
+<!-- </VBox> -->
+ <buttons>
+            <Button id="idSaveBtn" text="Save" press="onCharSave" enabled="false" type="Emphasized"/>
+            <Button id="idClosebtn" text="Cancel" type="Reject" press="onCharCanel" enabled="true" />
+        </buttons>
+            </Dialog>
+</core:FragmentDefinition>

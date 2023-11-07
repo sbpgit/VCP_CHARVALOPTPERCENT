@@ -1,0 +1,41 @@
+<mvc:View controllerName="cpapp.vcpcharvaloptpercent.controller.Home"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m">
+    <Page id="_IDGenPage1" >
+        <customHeader>
+            <Toolbar id="_IDGenToolbar1" >
+                <Title id="profTitle" text="{i18n>appTitle}" class="boldText"></Title>
+                <ToolbarSpacer id="_IDGenToolbarSpacer1"/>
+                <Button id="idAdd" text="Create" icon="sap-icon://add" press="onCreate" tooltip = "Create"/>
+                <Button id="idEdit" text="Edit" icon="sap-icon://edit" press="onUpdate" tooltip = "Edit" enabled="true"/>
+                <Button class="hdrBtnMarginHdr" icon="sap-icon://sys-help" id="idNav" press="onNavPress" type="Emphasized" tooltip="Help Document"/>
+                
+            </Toolbar>
+        </customHeader>
+        <content>
+            <SearchField id="headSearch" liveChange="handleSearch" placeholder="Characteristic Name/Value"/>
+            <Table id="charList" items="{path: '/setDetails'}" growingThreshold="1000" growingScrollToLoad="true" growing="true" mode="MultiSelect" selectionChange="onTableItemsSelect" >
+                <columns>
+                    <Column id="_IDGenColumn1" hAlign="Center" vAlign="Middle">
+                        <Text id="_IDGenText1" text="Characteristic Name" />
+                    </Column>
+                    <Column id="_IDGenColumn2" hAlign="Center" vAlign="Middle">
+                        <Text id="_IDGenText2" text="Characteristic Value"/>
+                    </Column>
+                    <Column id="_IDGenColumn3" hAlign="Center" vAlign="Middle">
+                        <Text id="_IDGenText3" text="Option Percentage"/>
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem id="_IDGenColumnListItem1">
+                        <cells>
+                            <ObjectIdentifier title="{CHAR_DESC}" text="{CHAR_NUM}" />
+                            <ObjectIdentifier title="{CHARVAL_DESC}" text="{CHAR_VALUE}"/>
+                            <ObjectIdentifier text="{OPT_PERCENT}"/>
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </content>
+    </Page>
+</mvc:View>
