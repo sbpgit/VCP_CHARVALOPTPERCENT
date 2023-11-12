@@ -235,9 +235,6 @@ sap.ui.define([
         onNavPress:function(){
             if (sap.ushell && sap.ushell.Container && sap.ushell.Container.getService) {
         var oCrossAppNavigator = sap.ushell.Container.getService("CrossApplicationNavigation"); 
-        // sap.ushell.Container.getServiceAsync("UserInfo").then(function(UserInfo){
-        //   return UserInfo;
-        // });
         // generate the Hash to display 
         var hash = (oCrossAppNavigator && oCrossAppNavigator.hrefForExternal({
             target: {
