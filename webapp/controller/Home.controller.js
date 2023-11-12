@@ -21,6 +21,54 @@ sap.ui.define([
             that.oCharModel = new JSONModel();
             that.oCharModel.setSizeLimit(5000);
             that.oAlgoListModel = new JSONModel();
+            that.getEnable();
+            },
+            getEnable:function(){
+                    var oModel = this.getOwnerComponent().getModel("BModel");
+                    var vUser = this.getUser();
+                    var oEntry = {
+                        USERDATA: []
+                    },aResults=[];
+                    let oParamVals = {
+                        USEREMAIL: vUser
+                    };
+                    oEntry.USERDATA.push(oParamVals);
+                    oModel.callFunction("/genUserAppVisibility", {
+                        method: "GET",
+                        urlParameters: {
+                            FLAG: 'G',
+                            USERDATA: JSON.stringify(oEntry.USERDATA)
+                        },
+                        success: function (oData) {
+                            aResults =oData.results;
+                            if(aResults.length > 0){
+                              var isUserLoggedIn = true;
+                            }
+                            if (isUserLoggedIn) {
+                             
+                                if(aResults[0].UPDATE_CHK == "disabled"){
+                                    that.byId("idAdd").setEnabled(false);
+                                    that.byId("idEdit").setEnabled(false);
+                                }
+                            }
+                            else{
+                              that.byId("idAdd").setEnabled(false);
+                              that.byId("idEdit").setEnabled(false);
+                            }
+                        },
+                        error: function (oData, error) {
+                            MessageToast.show("error");
+                        },
+                    });
+            },
+            getUser:function(){
+                var  vUser ;
+        if (sap.ushell.Container) {
+          let email = sap.ushell.Container.getService("UserInfo").getUser().getEmail();
+          vUser = (email) ? email : "";
+        }
+        return vUser;
+
             },
             onAfterRendering:function(){
                 sap.ui.core.BusyIndicator.show();
