@@ -128,7 +128,6 @@ sap.ui.define([
                 oFilters = [];
             // Check if search filter is to be applied
             sQuery = sQuery ? sQuery.trim() : "";
-            
             // Product
             if (sId.includes("idCharSelect")) {
                 if (sQuery !== "") {
