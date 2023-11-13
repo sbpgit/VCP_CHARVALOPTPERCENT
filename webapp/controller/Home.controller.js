@@ -44,8 +44,7 @@ sap.ui.define([
                             if(aResults.length > 0){
                               var isUserLoggedIn = true;
                             }
-                            if (isUserLoggedIn) {
-                             
+                            if (isUserLoggedIn) {                             
                                 if(aResults[0].UPDATE_CHK == "disabled"){
                                     that.byId("idAdd").setEnabled(false);
                                     that.byId("idEdit").setEnabled(false);
