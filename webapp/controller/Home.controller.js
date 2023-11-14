@@ -5,14 +5,23 @@ sap.ui.define([
     "sap/ui/model/Filter",
     "sap/m/MessageToast",
     "sap/ui/model/FilterOperator",
+    "sap/m/Dialog",
+    "sap/m/library",
+    "sap/m/Button",
+    "sap/m/Text",
     "../model/formatter"
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller,JSONModel,Fragment,Filter,MessageToast,FilterOperator,formatter) {
+    function (Controller,JSONModel,Fragment,Filter,MessageToast,FilterOperator,Dialog,mobileLibrary,Button,Text,formatter) {
         "use strict";
         var that, oGModel;
+        // shortcut for sap.m.ButtonType
+	var ButtonType = mobileLibrary.ButtonType;
+
+	// shortcut for sap.m.DialogType
+	var DialogType = mobileLibrary.DialogType;
         return Controller.extend("cpapp.vcpcharvaloptpercent.controller.Home", {
             onInit: function () {
             that =this;
@@ -45,10 +54,14 @@ sap.ui.define([
                               var isUserLoggedIn = true;
                             }
                             if (isUserLoggedIn) {                             
-                                if(aResults[0].UPDATE_CHK == "disabled"){
-                                    that.byId("idAdd").setEnabled(false);
-                                    that.byId("idEdit").setEnabled(false);
+                                if (aResults[0].DELETE_CHK === "disabled") {
                                     that.byId("idDelete").setEnabled(false);
+                                } 
+                                if(aResults[0].UPDATE_CHK == "disabled"){
+                                    that.byId("idEdit").setEnabled(false);
+                                }
+                                if(aResults[0].CREATE_CHK == "disabled"){
+                                    that.byId("idAdd").setEnabled(false);
                                 }
                             }
                             else{
@@ -321,6 +334,7 @@ sap.ui.define([
                 },
                 success: function (oData) {
                      that.byId("charList").removeSelections(); 
+                     sap.m.MessageToast.show("Created Successfully");
                     // for(var i=0;i<tabItems.length;i++){
                     //     tabItems[i].setSelected(false);
                     // }
@@ -424,7 +438,7 @@ sap.ui.define([
             }
         },
         onDelete:function(){
-            sap.ui.core.BusyIndicator.show();
+            
             that.uniqueName1=[];
             that.selectedUnique1=[];
             var uniqueItems1={};
@@ -438,7 +452,17 @@ sap.ui.define([
                 that.selectedUnique1.push(uniqueItems1);
                 uniqueItems1={};
             }
-            var distinctItems1 = that.removeDuplicate(that.selectedUnique1, 'CHAR_NUM');
+            if (!this.oApproveDialog) {
+				this.oApproveDialog = new Dialog({
+					type: DialogType.Message,
+					title: "Confirm",
+					content: new Text({ text: "Do you want to delete the selected characteristic(s)?" }),
+					beginButton: new Button({
+						type: ButtonType.Emphasized,
+						text: "Submit",
+						press: function () {
+                            sap.ui.core.BusyIndicator.show();
+                            var distinctItems1 = that.removeDuplicate(that.selectedUnique1, 'CHAR_NUM');
             this.getOwnerComponent().getModel("BModel").callFunction("/postCharOptionPercent", {
                 method: "GET",
                 urlParameters: {
@@ -446,15 +470,29 @@ sap.ui.define([
                 },
                 success: function (oData) {
                     sap.m.MessageToast.show("Deletion successfull");
-                     that.byId("charList").removeSelections();
+                    that.byId("charList").removeSelections();
+                    that.oApproveDialog.close();
                     that.onAfterRendering();                
                 },
                 error: function (error) {
                     sap.ui.core.BusyIndicator.hide();
                     sap.m.MessageToast.show("Failed to delete");
-                    MessageToast.show("error");
+                    
                 },
             });
+							// MessageToast.show("Submit pressed!");
+							
+						}.bind(this)
+					}),
+					endButton: new Button({
+						text: "Cancel",
+						press: function () {
+							this.oApproveDialog.close();
+						}.bind(this)
+					})
+				});
+			}
+			this.oApproveDialog.open();           
 
         }
         else{
