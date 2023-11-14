@@ -48,11 +48,13 @@ sap.ui.define([
                                 if(aResults[0].UPDATE_CHK == "disabled"){
                                     that.byId("idAdd").setEnabled(false);
                                     that.byId("idEdit").setEnabled(false);
+                                    that.byId("idDelete").setEnabled(false);
                                 }
                             }
                             else{
                               that.byId("idAdd").setEnabled(false);
                               that.byId("idEdit").setEnabled(false);
+                              that.byId("idDelete").setEnabled(false);
                             }
                         },
                         error: function (oData, error) {
@@ -72,14 +74,7 @@ sap.ui.define([
             onAfterRendering:function(){
                 sap.ui.core.BusyIndicator.show();
                 that.loadArray=[];
-                this._oCore = sap.ui.getCore();               
-                // if (!that._onCreate) {
-                //     that._onCreate = sap.ui.xmlfragment(
-                //       "cpapp.vcpcharvaloptpercent.view.CreateOptPer",
-                //       that
-                //     );
-                //     that.getView().addDependent(that._onCreate);
-                //   }
+                this._oCore = sap.ui.getCore(); 
 
                   if (!that._onCreateChar) {
                     that._onCreateChar = sap.ui.xmlfragment(
@@ -197,8 +192,8 @@ sap.ui.define([
                             filters: [
                                 new Filter("CHAR_NUM", FilterOperator.Contains, sQuery),
                                 new Filter("CHAR_DESC", FilterOperator.Contains, sQuery),
-                                new Filter("CHARVAL_NUM", FilterOperator.Contains, sQuery),
-                                new Filter("CHARVAL_DESC", FilterOperator.Contains, sQuery)
+                                // new Filter("CHARVAL_NUM", FilterOperator.Contains, sQuery),
+                                // new Filter("CHARVAL_DESC", FilterOperator.Contains, sQuery)
                             ],
                             and: false,
                         })
@@ -318,7 +313,7 @@ sap.ui.define([
                     objectData={}
                 }
             }
-            console.log(objectArray);
+            // console.log(objectArray);
             this.getOwnerComponent().getModel("BModel").callFunction("/postCharOptionPercent", {
                 method: "GET",
                 urlParameters: {
@@ -427,6 +422,45 @@ sap.ui.define([
                 }
                 sap.ui.core.BusyIndicator.hide();   
             }
+        },
+        onDelete:function(){
+            sap.ui.core.BusyIndicator.show();
+            that.uniqueName1=[];
+            that.selectedUnique1=[];
+            var uniqueItems1={};
+            var selectedTabItems = that.byId("charList").getSelectedItems();
+            if(selectedTabItems.length>0){
+            for(var k=0;k<selectedTabItems.length;k++){
+                uniqueItems1={
+                    // CHAR_NAME:selectedTabItems[k].getCells()[0].getTitle(),
+                    CHAR_NUM : selectedTabItems[k].getCells()[0].getText()
+                }
+                that.selectedUnique1.push(uniqueItems1);
+                uniqueItems1={};
+            }
+            var distinctItems1 = that.removeDuplicate(that.selectedUnique1, 'CHAR_NUM');
+            this.getOwnerComponent().getModel("BModel").callFunction("/postCharOptionPercent", {
+                method: "GET",
+                urlParameters: {
+                    CHAROPTPERCENT : JSON.stringify(distinctItems1)
+                },
+                success: function (oData) {
+                    sap.m.MessageToast.show("Deletion successfull");
+                     that.byId("charList").removeSelections();
+                    that.onAfterRendering();                
+                },
+                error: function (error) {
+                    sap.ui.core.BusyIndicator.hide();
+                    sap.m.MessageToast.show("Failed to delete");
+                    MessageToast.show("error");
+                },
+            });
+
+        }
+        else{
+            sap.ui.core.BusyIndicator.hide();
+            sap.m.MessageToast.show("Please select atleast one item");
+        }
         }
         });
     });

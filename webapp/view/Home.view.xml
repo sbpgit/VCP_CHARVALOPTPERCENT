@@ -8,12 +8,13 @@
                 <ToolbarSpacer id="_IDGenToolbarSpacer1"/>
                 <Button id="idAdd" text="Create" icon="sap-icon://add" press="onCreate" tooltip = "Create"/>
                 <Button id="idEdit" text="Edit" icon="sap-icon://edit" press="onUpdate" tooltip = "Edit" enabled="true"/>
+                <Button id="idDelete" text="Delete" icon="sap-icon://delete" press="onDelete" tooltip = "Delete" enabled="true"/>
                 <Button class="hdrBtnMarginHdr" icon="sap-icon://sys-help" id="idNav" press="onNavPress" type="Emphasized" tooltip="Help Document"/>
                 
             </Toolbar>
         </customHeader>
         <content>
-            <SearchField id="headSearch" liveChange="handleSearch" placeholder="Characteristic Name/Value"/>
+            <SearchField id="headSearch" liveChange="handleSearch" placeholder="Characteristic Name"/>
             <Table id="charList" items="{path: '/setDetails'}" growingThreshold="1000" growingScrollToLoad="true" growing="true" mode="MultiSelect" selectionChange="onTableItemsSelect" >
                 <columns>
                     <Column id="_IDGenColumn1" hAlign="Center" vAlign="Middle">
