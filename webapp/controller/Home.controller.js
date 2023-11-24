@@ -20,7 +20,7 @@ sap.ui.define([
         // shortcut for sap.m.ButtonType
 	var ButtonType = mobileLibrary.ButtonType;
 
-	// shortcut for sap.m.DialogType
+	// shortcut for sap.m.DialogType s
 	var DialogType = mobileLibrary.DialogType;
         return Controller.extend("cpapp.vcpcharvaloptpercent.controller.Home", {
             onInit: function () {
