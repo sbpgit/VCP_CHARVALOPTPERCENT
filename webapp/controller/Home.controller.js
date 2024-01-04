@@ -126,8 +126,10 @@ sap.ui.define([
                         that.totalArray=[];
                         for(var i=0;i<oData.results.length;i++){
                         var filteredData = that.loadArray.find(a=>a.CHAR_NUM === oData.results[i].CHAR_NUM && a.CHARVAL_NUM === oData.results[i].CHARVAL_NUM );
-                            filteredData.OPT_PERCENT = oData.results[i].OPT_PERCENT;
-                            that.totalArray.push(filteredData);                        
+                          if(filteredData)  {
+                        filteredData.OPT_PERCENT = oData.results[i].OPT_PERCENT;
+                            that.totalArray.push(filteredData);   
+                          }                     
                         }
                         that.oTabtModel.setData({setDetails: that.totalArray});
                         that.byId("charList").setModel(that.oTabtModel);
