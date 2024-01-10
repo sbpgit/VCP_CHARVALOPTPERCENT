@@ -113,13 +113,13 @@ sap.ui.define([
                     this._valueHelpDialogProd.getId() + "-list"
                 );
 
-                this.getOwnerComponent().getModel("BModel").callFunction("/getProductCharVal", {
-                    method: "GET",
-                    urlParameters: {
-                        Flag: "Z",
-                        PRODATA: JSON.stringify([])
-                    },
-                    // this.getOwnerComponent().getModel("BModel").read("/getProdClsCharMaster", {
+                // this.getOwnerComponent().getModel("BModel").callFunction("/getProductCharVal", {
+                //     method: "GET",
+                //     urlParameters: {
+                //         Flag: "Z",
+                //         PRODATA: JSON.stringify([])
+                //     },
+                    this.getOwnerComponent().getModel("BModel").read("/getProdClsCharMaster", {
                     success: function (oData) {
                         for (let i = 0; i < oData.results.length; i++) {
                             oData.results[i].CHARVAL_INPUT = "";
@@ -138,7 +138,7 @@ sap.ui.define([
                     success: function (oData) {
                         that.totalArray = [];
                         for (var i = 0; i < oData.results.length; i++) {
-                            var filteredData = that.loadArray.find(a => a.CHAR_NUM === oData.results[i].CHAR_NUM && a.CHARVAL_NUM === oData.results[i].CHARVAL_NUM);
+                            var filteredData = that.loadArray.find(a => a.CHAR_NUM === oData.results[i].CHAR_NUM && a.CHARVAL_NUM === oData.results[i].CHARVAL_NUM && a.PRODUCT_ID === oData.results[i].PRODUCT_ID);
                             if (filteredData) {
                                 filteredData.OPT_PERCENT = oData.results[i].OPT_PERCENT;
                                 filteredData.PRODUCT_ID = oData.results[i].PRODUCT_ID;
@@ -168,7 +168,6 @@ sap.ui.define([
                     },
                 });
                 that.oGModel.setProperty("/Flag1", "");
-                that.oGModel.setProperty("/FLAG", "");
                 that.oProd = sap.ui.getCore().byId("PDFprodInput");
             },
             handleValueHelp1: function (oEvent) {
@@ -273,8 +272,7 @@ sap.ui.define([
                 }
             },
             handleProdSelection: function (oEvent) {
-                that.oGModel.setProperty("/FLAG", "Y");
-                that.finalData = [], that.initialData = {}, that.loadArray = [];
+                that.finalData = [], that.initialData = {};
                 that.oProd = sap.ui.getCore().byId("PDFprodInput");
                 var aSelectedProd;
                 aSelectedProd = oEvent.getParameter("selectedItems");
@@ -294,20 +292,43 @@ sap.ui.define([
                     PRODUCT_ID: selectedProd
                 }
                 that.finalData.push(that.initialData);
-                this.getOwnerComponent().getModel("BModel").callFunction("/getProductCharVal", {
-                    method: "GET",
-                    urlParameters: {
-                        Flag: "X",
-                        PRODATA: JSON.stringify(that.finalData)
-                    },
-                    success: function (oData) {
-                        that.selectedChars = [];
-                        if (oData.results.length > 0) {
-                            for (let i = 0; i < oData.results.length; i++) {
-                                oData.results[i].CHARVAL_INPUT = "";
-                                that.loadArray.push(oData.results[i]);
-                            }
-                            let aDistinct = that.removeDuplicate(that.loadArray, 'CHAR_NAME');
+                // this.getOwnerComponent().getModel("BModel").callFunction("/getProductCharVal", {
+                //     method: "GET",
+                //     urlParameters: {
+                //         Flag: "X",
+                //         PRODATA: JSON.stringify(that.finalData)
+                //     },
+                //     success: function (oData) {
+                //         that.selectedChars = [];
+                //         if (oData.results.length > 0) {
+                //             for (let i = 0; i < oData.results.length; i++) {
+                //                 oData.results[i].CHARVAL_INPUT = "";
+                //                 that.loadArray.push(oData.results[i]);
+                //             }
+                //             let aDistinct = that.removeDuplicate(that.loadArray, 'CHAR_NAME');
+                //             that.oCharModel.setData({ setCharacteristics: aDistinct });
+                //             sap.ui.getCore().byId("idCharSelect").setModel(that.oCharModel);
+                //             that.oAlgoListModel.setData({ setPanel: [] });
+                //             sap.ui.getCore().byId("idVBox").setModel(that.oAlgoListModel);
+                //             sap.ui.getCore().byId("idCharName").removeAllTokens();
+                //             var selectedItems = sap.ui.getCore().byId("idCharSelect").getItems();
+                //             for (var i = 0; i < selectedItems.length; i++) {
+                //                 selectedItems[i].setSelected(false);
+                //             }
+                //         }
+                //         else {
+                //             sap.m.MessageToast.show("No characteristics available for selected product");
+                //         }
+                //         sap.ui.core.BusyIndicator.hide();
+                //     },
+                //     error: function (oData, error) {
+                //         sap.ui.core.BusyIndicator.hide();
+                //         MessageToast.show("error");
+                //     },
+                // });
+                var charData = that.loadArray.filter(a => a.PRODUCT_ID === selectedProd);
+                if(charData.length>0){
+                    let aDistinct = that.removeDuplicate(charData, 'CHAR_NAME');
                             that.oCharModel.setData({ setCharacteristics: aDistinct });
                             sap.ui.getCore().byId("idCharSelect").setModel(that.oCharModel);
                             that.oAlgoListModel.setData({ setPanel: [] });
@@ -317,17 +338,10 @@ sap.ui.define([
                             for (var i = 0; i < selectedItems.length; i++) {
                                 selectedItems[i].setSelected(false);
                             }
-                        }
-                        else {
-                            sap.m.MessageToast.show("No characteristics available for selected product");
-                        }
-                        sap.ui.core.BusyIndicator.hide();
-                    },
-                    error: function (oData, error) {
-                        sap.ui.core.BusyIndicator.hide();
-                        MessageToast.show("error");
-                    },
-                });
+                }
+                else{
+                    sap.m.MessageToast.show("No characteristics available for selected product"); 
+                }
             },
             handleSelection: function (oEvent) {
                 that.sumArray = [];
@@ -347,6 +361,7 @@ sap.ui.define([
                 sap.ui.getCore().byId("idSaveBtn").setEnabled(false);
                 for (var i = 0; i < selectedItem.length; i++) {
                     that.uniqueName.push({
+                        PRODUCT_ID:sap.ui.getCore().byId("PDFprodInput").getTokens()[0].getText(),
                         CHAR_NAME: selectedItem[i].getTitle(),
                         child: that.removeDuplicate(that.loadArray.filter(a => a.CHAR_NUM === selectedItem[i].getBindingContext().getObject().CHAR_NUM), 'CHAR_VALUE')
                     });
@@ -471,12 +486,6 @@ sap.ui.define([
             onCharSave: function () {
                 sap.ui.core.BusyIndicator.show();
                 var objectData = {}, objectArray = [];
-                if (that.oGModel.getProperty("/FLAG") === "Y") {
-                    var ProductIncluded = sap.ui.getCore().byId("PDFprodInput").getTokens()[0].getText()
-                }
-                else {
-                    var ProductIncluded = that.ProductSelected
-                }
                 var vBoxItems = sap.ui.getCore().byId("idVBox").getItems();
                 for (var i = 0; i < vBoxItems.length; i++) {
                     var childItems = vBoxItems[i].getContent()[0].getItems();
@@ -488,7 +497,7 @@ sap.ui.define([
                             var opt_percent = childItems[k].getCells()[1].getValue();
                         }
                         objectData = {
-                            PRODUCT_ID: ProductIncluded,
+                            PRODUCT_ID: childItems[k].getBindingContext().getObject().PRODUCT_ID,
                             CHAR_NUM: childItems[k].getBindingContext().getObject().CHAR_NUM,
                             CHARVAL_NUM: childItems[k].getBindingContext().getObject().CHARVAL_NUM,
                             OPT_PERCENT: opt_percent
@@ -522,6 +531,7 @@ sap.ui.define([
                 if (selectedItems.length > 0) {
                     for (var k = 0; k < selectedItems.length; k++) {
                         uniqueItems = {
+                            PRODUCT_ID: selectedItems[k].getCells()[0].getTitle(),
                             CHAR_NAME: selectedItems[k].getCells()[1].getTitle(),
                             CHAR_NUM: selectedItems[k].getCells()[1].getText()
                         }
@@ -542,8 +552,10 @@ sap.ui.define([
                     sap.ui.getCore().byId("idCharName").setVisible(false);
                     sap.ui.getCore().byId("idProdLabel").setVisible(false);
                     sap.ui.getCore().byId("PDFprodInput").setVisible(false);
+                    // sap.ui.getCore().byId("idProdHB").setVisible(true);
                     for (var i = 0; i < distinctItems.length; i++) {
                         that.uniqueName.push({
+                            PRODUCT_ID:distinctItems[i].PRODUCT_ID,
                             CHAR_NAME: distinctItems[i].CHAR_NAME,
                             child: that.removeDuplicate(that.loadArray.filter(a => a.CHAR_NUM === distinctItems[i].CHAR_NUM), 'CHAR_VALUE')
                         });
@@ -591,8 +603,9 @@ sap.ui.define([
                 var tabItems = that.byId("charList").getItems();
                 if (selection === true) {
                     var selectItem = oEvent.getParameters().listItems[0].getCells()[1].getText();
+                    var selectProdItem = oEvent.getParameters().listItems[0].getCells()[0].getTitle();
                     for (var i = 0; i < tabItems.length; i++) {
-                        if (selectItem === tabItems[i].getCells()[1].getText()) {
+                        if (selectItem === tabItems[i].getCells()[1].getText() && selectProdItem === tabItems[i].getCells()[0].getTitle() ) {
                             tabItems[i].setSelected(true);
                         }
                     }
@@ -600,8 +613,9 @@ sap.ui.define([
                 }
                 else {
                     var unselectItem = oEvent.getParameters().listItems[0].getCells()[1].getText();
+                    var unSelectProdItem = oEvent.getParameters().listItems[0].getCells()[0].getTitle();
                     for (var i = 0; i < tabItems.length; i++) {
-                        if (unselectItem === tabItems[i].getCells()[1].getText()) {
+                        if (unselectItem === tabItems[i].getCells()[1].getText() && unSelectProdItem === tabItems[i].getCells()[0].getTitle()) {
                             tabItems[i].setSelected(false);
                         }
                     }

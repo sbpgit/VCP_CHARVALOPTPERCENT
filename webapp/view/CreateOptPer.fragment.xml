@@ -62,15 +62,18 @@
                 id="_IDGenPanel1"
                 expandable="true"
                 expanded="false"
-                headerText="{CHAR_NAME}"
             >
-                <!-- <headerToolbar>
+                <headerToolbar>
 			<OverflowToolbar>
             	<Title text="{CHAR_NAME}" />
             <ToolbarSpacer />
-				<Button icon="sap-icon://delete" id="" press="onPanelDelete" />
+				<!-- <Button icon="sap-icon://delete" id="" press="onPanelDelete" /> -->
+                <HBox visible="true" id="">
+                <Label id="" text="Product:" ></Label>
+                <Text text="{PRODUCT_ID}" id="" class="prodClass"/>
+                </HBox>
 			</OverflowToolbar>
-		</headerToolbar> -->
+		</headerToolbar>
                 <content>
                     <Table
                         id=""
