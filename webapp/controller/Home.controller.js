@@ -32,7 +32,7 @@ sap.ui.define([
                 that.oAlgoListModel = new JSONModel();
                 this.prodModel = new JSONModel();
                 this.prodModel.setSizeLimit(2000);
-                that.getEnable();
+                // that.getEnable();
             },
             getEnable: function () {
                 var oModel = this.getOwnerComponent().getModel("BModel");
@@ -497,7 +497,7 @@ sap.ui.define([
                             var opt_percent = childItems[k].getCells()[1].getValue();
                         }
                         objectData = {
-                            PRODUCT_ID: childItems[k].getBindingContext().getObject().PRODUCT_ID,
+                            PRODUCT_ID: vBoxItems[i].getHeaderToolbar().getBindingContext().getObject().PRODUCT_ID,
                             CHAR_NUM: childItems[k].getBindingContext().getObject().CHAR_NUM,
                             CHARVAL_NUM: childItems[k].getBindingContext().getObject().CHARVAL_NUM,
                             OPT_PERCENT: opt_percent
@@ -538,8 +538,8 @@ sap.ui.define([
                         that.selectedUnique.push(uniqueItems);
                         uniqueItems = {};
                     }
-                    var distinctItems = that.removeDuplicate(that.selectedUnique, 'CHAR_NUM');
-                    that.ProductSelected = selectedItems[0].getCells()[0].getTitle();
+                    var distinctItems = that.removeDuplicate(that.selectedUnique, 'PRODUCT_ID');
+                    // var distinctItems = that.selectedUnique;
                     if (!that._onCreate) {
                         that._onCreate = sap.ui.xmlfragment(
                             "cpapp.vcpcharvaloptpercent.view.CreateOptPer",
@@ -557,7 +557,7 @@ sap.ui.define([
                         that.uniqueName.push({
                             PRODUCT_ID:distinctItems[i].PRODUCT_ID,
                             CHAR_NAME: distinctItems[i].CHAR_NAME,
-                            child: that.removeDuplicate(that.loadArray.filter(a => a.CHAR_NUM === distinctItems[i].CHAR_NUM), 'CHAR_VALUE')
+                            child: that.loadArray.filter(a => a.CHAR_NUM === distinctItems[i].CHAR_NUM && a.PRODUCT_ID === distinctItems[i].PRODUCT_ID)
                         });
                         that.uniqueName[i].child.sort((a, b) => {
                             const charValueA = a.CHAR_VALUE; const charValueB = b.CHAR_VALUE;
@@ -575,10 +575,11 @@ sap.ui.define([
                     var vBoxItems = sap.ui.getCore().byId("idVBox").getItems();
                     for (var s = 0; s < that.uniqueName.length; s++) {
                         for (var ii = 0; ii < vBoxItems.length; ii++) {
-                            if (that.uniqueName[s].CHAR_NAME === vBoxItems[ii].getBindingContext().getObject().CHAR_NAME) {
+                            if (that.uniqueName[s].CHAR_NAME === vBoxItems[ii].getBindingContext().getObject().CHAR_NAME && 
+                            that.uniqueName[s].PRODUCT_ID === vBoxItems[ii].getHeaderToolbar().getBindingContext().getObject().PRODUCT_ID) {
                                 var tableCells = vBoxItems[ii].getContent()[0].getItems();
                                 var percentOpt = vBoxItems[ii].getBindingContext().getObject().child;
-                                for (var jj = 0; jj < tableCells.length - 1; jj++) {
+                                for (var jj = 0; jj < tableCells.length; jj++) {
                                     for (var kk = 0; kk < percentOpt.length; kk++) {
                                         if (tableCells[jj].getCells()[0].getItems()[0].getText().trim() === percentOpt[kk].CHAR_VALUE) {
                                             tableCells[jj].getCells()[1].setValue(percentOpt[kk].OPT_PERCENT);
