@@ -32,7 +32,7 @@ sap.ui.define([
                 that.oAlgoListModel = new JSONModel();
                 this.prodModel = new JSONModel();
                 this.prodModel.setSizeLimit(2000);
-                that.getEnable();
+                // that.getEnable();
             },
             getEnable: function () {
                 var oModel = this.getOwnerComponent().getModel("BModel");
@@ -119,7 +119,7 @@ sap.ui.define([
                 //         Flag: "Z",
                 //         PRODATA: JSON.stringify([])
                 //     },
-                    this.getOwnerComponent().getModel("BModel").read("/getProdClsCharMaster", {
+                    this.getOwnerComponent().getModel("BModel").read("/getProdClsChar", {
                     success: function (oData) {
                         for (let i = 0; i < oData.results.length; i++) {
                             oData.results[i].CHARVAL_INPUT = "";
@@ -538,7 +538,7 @@ sap.ui.define([
                         that.selectedUnique.push(uniqueItems);
                         uniqueItems = {};
                     }
-                    var distinctItems = that.removeDuplicate(that.selectedUnique, 'PRODUCT_ID');
+                    var distinctItems = that.removeDuplicatesTwo(that.selectedUnique, 'PRODUCT_ID','CHAR_NUM');
                     // var distinctItems = that.selectedUnique;
                     if (!that._onCreate) {
                         that._onCreate = sap.ui.xmlfragment(
@@ -598,6 +598,24 @@ sap.ui.define([
                     sap.m.MessageToast.show("No Items selected from table");
                 }
             },
+
+            removeDuplicatesTwo:function(arr, field1, field2) {
+                const uniqueObjects = [];
+              
+                arr.forEach((obj) => {
+                  // Check if an object with the same values for both fields already exists
+                  const exists = uniqueObjects.some((uniqueObj) =>
+                    uniqueObj[field1] === obj[field1] && uniqueObj[field2] === obj[field2]
+                  );
+              
+                  // If the object doesn't exist, add it to the uniqueObjects array
+                  if (!exists) {
+                    uniqueObjects.push(obj);
+                  }
+                });
+              
+                return uniqueObjects;
+              },
             onTableItemsSelect: function (oEvent) {
                 sap.ui.core.BusyIndicator.show();
                 var selection = oEvent.getParameters().selected;
@@ -697,50 +715,6 @@ sap.ui.define([
                 array2 = array2.concat(similarElements);
 
                 return { array1, array2 };
-            },
-            // onSubmitPress: function () {
-            //     sap.ui.core.BusyIndicator.show();
-            //     var table = that.byId("charList");
-            //     var selectedProd1 = that.byId("PDFprodInput").getTokens()[0];
-            //     that.finalData = [], that.initialData = {};
-            //     if (selectedProd1 !== undefined &&
-            //         selectedProd1 !== "") {
-            //         var selectedProd = that.byId("PDFprodInput").getTokens()[0].getText();
-            //         that.initialData = {
-            //             PRODUCT_ID: selectedProd
-            //         }
-            //         that.finalData.push(that.initialData);
-            //         this.getOwnerComponent().getModel("BModel").callFunction("/getProductCharVal", {
-            //             method: "GET",
-            //             urlParameters: {
-            //                 Flag: "X",
-            //                 PRODATA: JSON.stringify(that.finalData)
-            //             },
-            //             success: function (oData) {
-            //                 that.selectedChars = [];
-            //                 if (oData.results.length > 0) {
-            //                     that.uniqId = that.removeDuplicate(oData.results, 'CHAR_VALUE');
-
-            //                     that.oTabtModel.setData({ setChars: that.uniqId });
-            //                     table.setModel(that.oTabtModel);
-            //                 }
-            //                 else {
-            //                     sap.m.MessageToast.show("No characteristics available for selected product");
-            //                     that.oTabtModel.setData({ setChars: [] });
-            //                     table.setModel(that.oTabtModel);
-            //                 }
-            //                 sap.ui.core.BusyIndicator.hide();
-            //             },
-            //             error: function (oData, error) {
-            //                 sap.ui.core.BusyIndicator.hide();
-            //                 MessageToast.show("error");
-            //             },
-            //         });
-            //     }
-            //     else {
-            //         sap.ui.core.BusyIndicator.hide();
-            //         MessageToast.show("Please Select Configurable Product");
-            //     }
-            // }
+            }
         });
     });
