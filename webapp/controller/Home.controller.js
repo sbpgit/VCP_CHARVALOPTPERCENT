@@ -32,7 +32,7 @@ sap.ui.define([
                 that.oAlgoListModel = new JSONModel();
                 this.prodModel = new JSONModel();
                 this.prodModel.setSizeLimit(2000);
-                // that.getEnable();
+                that.getEnable();
             },
             getEnable: function () {
                 var oModel = this.getOwnerComponent().getModel("BModel");
