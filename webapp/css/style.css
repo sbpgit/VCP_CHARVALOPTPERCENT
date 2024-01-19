@@ -1,8 +1,8 @@
 /* Enter your custom styles here */
-.boldText {
+/* .boldText {
     font-weight: bold !important;
-    padding-left:480px !important;
-}
+    padding-left:0px !important;
+} */
 .red{
     color:red;
 }
@@ -44,3 +44,8 @@
 .prodClass{
     margin-top:-3px !important;
 }
+
+.sapUiTinyMarginBottom {
+    margin-top:0.15rem;
+    font-size:12px !important;
+  }

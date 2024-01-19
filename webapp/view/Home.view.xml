@@ -4,7 +4,11 @@
     <Page id="_IDGenPage1" >
         <customHeader>
             <Toolbar id="_IDGenToolbar1" >
+            <HBox>
                 <Title id="profTitle" text="{i18n>appTitle}" class="boldText"></Title>
+                <Title id="profTitle1" text="(Automated Seed Order Generation)" class="sapUiTinyMarginBottom"></Title>
+
+                </HBox>
                 <ToolbarSpacer id="_IDGenToolbarSpacer1"/>
                 <Button id="idAdd" text="Create" icon="sap-icon://add" press="onCreate" tooltip = "Create"/>
                 <Button id="idEdit" text="Edit" icon="sap-icon://edit" press="onUpdate" tooltip = "Edit" enabled="true"/>
