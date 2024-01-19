@@ -145,7 +145,6 @@ sap.ui.define([
                                 that.totalArray.push(filteredData);
                             }
                         }
-                        // that.totalArray = oData.results;
                         that.oTabtModel.setData({ setDetails: that.totalArray });
                         that.byId("charList").setModel(that.oTabtModel);
                         sap.ui.core.BusyIndicator.hide();
