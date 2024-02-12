@@ -506,7 +506,7 @@ sap.ui.define([
                         objectData = {}
                     }
                 }
-                this.getOwnerComponent().getModel("BModel").callFunction("/postCharOptionPercent", {
+                this.getOwnerComponent().getModel("BModel").callFunction("/postCharOptionPercent_old", {
                     method: "GET",
                     urlParameters: {
                         CHAROPTPERCENT: JSON.stringify(objectArray)
@@ -671,7 +671,7 @@ sap.ui.define([
                                 press: function () {
                                     sap.ui.core.BusyIndicator.show();
                                     var distinctItems1 = that.removeDuplicate(that.selectedUnique1, 'CHAR_NUM');
-                                    this.getOwnerComponent().getModel("BModel").callFunction("/postCharOptionPercent", {
+                                    this.getOwnerComponent().getModel("BModel").callFunction("/postCharOptionPercent_old", {
                                         method: "GET",
                                         urlParameters: {
                                             CHAROPTPERCENT: JSON.stringify(distinctItems1)
