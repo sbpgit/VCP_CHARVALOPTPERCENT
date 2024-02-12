@@ -18,7 +18,7 @@
             </Toolbar>
         </customHeader>
         <content>
-            <SearchField id="headSearch" liveChange="handleSearch" placeholder="Product/Characteristic Name"/>
+            <SearchField id="headSearch" liveChange="handleSearch" placeholder="Characteristic Name"/>
             <Table id="charList" items="{path: '/setDetails',sorter:{path:'PRODUCT_ID'}}" growingThreshold="1000" growingScrollToLoad="true" growing="true" mode="MultiSelect" selectionChange="onTableItemsSelect" >
                 <columns>
                 <!-- <Column id="_IDGenColumn11" hAlign="Center" vAlign="Middle">
