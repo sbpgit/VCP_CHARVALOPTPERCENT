@@ -138,10 +138,11 @@ sap.ui.define([
                     success: function (oData) {
                         that.totalArray = [];
                         for (var i = 0; i < oData.results.length; i++) {
-                            var filteredData = that.loadArray.find(a => a.CHAR_NUM === oData.results[i].CHAR_NUM && a.CHARVAL_NUM === oData.results[i].CHARVAL_NUM && a.PRODUCT_ID === oData.results[i].PRODUCT_ID);
+                            var filteredData = that.loadArray.find(a => a.CHAR_NUM === oData.results[i].CHAR_NUM && a.CHARVAL_NUM === oData.results[i].CHARVAL_NUM);
+                            // var filteredData = that.loadArray.find(a => a.CHAR_NUM === oData.results[i].CHAR_NUM && a.CHARVAL_NUM === oData.results[i].CHARVAL_NUM && a.PRODUCT_ID === oData.results[i].PRODUCT_ID);
                             if (filteredData) {
                                 filteredData.OPT_PERCENT = oData.results[i].OPT_PERCENT;
-                                filteredData.PRODUCT_ID = oData.results[i].PRODUCT_ID;
+                                // filteredData.PRODUCT_ID = oData.results[i].PRODUCT_ID;
                                 that.totalArray.push(filteredData);
                             }
                         }
@@ -261,7 +262,7 @@ sap.ui.define([
                                 filters: [
                                     new Filter("CHAR_NUM", FilterOperator.Contains, sQuery),
                                     new Filter("CHAR_DESC", FilterOperator.Contains, sQuery),
-                                    new Filter("PRODUCT_ID", FilterOperator.Contains, sQuery)
+                                    // new Filter("PRODUCT_ID", FilterOperator.Contains, sQuery)
                                 ],
                                 and: false,
                             })
@@ -496,7 +497,7 @@ sap.ui.define([
                             var opt_percent = childItems[k].getCells()[1].getValue();
                         }
                         objectData = {
-                            PRODUCT_ID: vBoxItems[i].getHeaderToolbar().getBindingContext().getObject().PRODUCT_ID,
+                            // PRODUCT_ID: vBoxItems[i].getHeaderToolbar().getBindingContext().getObject().PRODUCT_ID,
                             CHAR_NUM: childItems[k].getBindingContext().getObject().CHAR_NUM,
                             CHARVAL_NUM: childItems[k].getBindingContext().getObject().CHARVAL_NUM,
                             OPT_PERCENT: opt_percent
@@ -557,6 +558,7 @@ sap.ui.define([
                             PRODUCT_ID:distinctItems[i].PRODUCT_ID,
                             CHAR_NAME: distinctItems[i].CHAR_NAME,
                             child: that.loadArray.filter(a => a.CHAR_NUM === distinctItems[i].CHAR_NUM && a.PRODUCT_ID === distinctItems[i].PRODUCT_ID)
+                                // && a.PRODUCT_ID === distinctItems[i].PRODUCT_ID)
                         });
                         that.uniqueName[i].child.sort((a, b) => {
                             const charValueA = a.CHAR_VALUE; const charValueB = b.CHAR_VALUE;
@@ -574,7 +576,7 @@ sap.ui.define([
                     var vBoxItems = sap.ui.getCore().byId("idVBox").getItems();
                     for (var s = 0; s < that.uniqueName.length; s++) {
                         for (var ii = 0; ii < vBoxItems.length; ii++) {
-                            if (that.uniqueName[s].CHAR_NAME === vBoxItems[ii].getBindingContext().getObject().CHAR_NAME && 
+                            if (that.uniqueName[s].CHAR_NAME === vBoxItems[ii].getBindingContext().getObject().CHAR_NAME &&
                             that.uniqueName[s].PRODUCT_ID === vBoxItems[ii].getHeaderToolbar().getBindingContext().getObject().PRODUCT_ID) {
                                 var tableCells = vBoxItems[ii].getContent()[0].getItems();
                                 var percentOpt = vBoxItems[ii].getBindingContext().getObject().child;
@@ -620,20 +622,22 @@ sap.ui.define([
                 var selection = oEvent.getParameters().selected;
                 var tabItems = that.byId("charList").getItems();
                 if (selection === true) {
-                    var selectItem = oEvent.getParameters().listItems[0].getCells()[1].getText();
-                    var selectProdItem = oEvent.getParameters().listItems[0].getCells()[0].getTitle();
+                    var selectItem = oEvent.getParameters().listItems[0].getCells()[0].getText();
+                    // var selectProdItem = oEvent.getParameters().listItems[0].getCells()[0].getTitle();
                     for (var i = 0; i < tabItems.length; i++) {
-                        if (selectItem === tabItems[i].getCells()[1].getText() && selectProdItem === tabItems[i].getCells()[0].getTitle() ) {
+                        if (selectItem === tabItems[i].getCells()[0].getText() ) {
+                        // && selectProdItem === tabItems[i].getCells()[0].getTitle() ) {
                             tabItems[i].setSelected(true);
                         }
                     }
                     sap.ui.core.BusyIndicator.hide();
                 }
                 else {
-                    var unselectItem = oEvent.getParameters().listItems[0].getCells()[1].getText();
+                    var unselectItem = oEvent.getParameters().listItems[0].getCells()[0].getText();
                     var unSelectProdItem = oEvent.getParameters().listItems[0].getCells()[0].getTitle();
                     for (var i = 0; i < tabItems.length; i++) {
-                        if (unselectItem === tabItems[i].getCells()[1].getText() && unSelectProdItem === tabItems[i].getCells()[0].getTitle()) {
+                        if (unselectItem === tabItems[i].getCells()[0].getText() ) {
+                        // && unSelectProdItem === tabItems[i].getCells()[0].getTitle()) {
                             tabItems[i].setSelected(false);
                         }
                     }
@@ -650,8 +654,8 @@ sap.ui.define([
                     for (var k = 0; k < selectedTabItems.length; k++) {
                         uniqueItems1 = {
                             // CHAR_NAME:selectedTabItems[k].getCells()[0].getTitle(),
-                            CHAR_NUM: selectedTabItems[k].getCells()[1].getText(),
-                            PRODUCT_ID: selectedTabItems[k].getCells()[0].getTitle()
+                            CHAR_NUM: selectedTabItems[k].getCells()[0].getText(),
+                            // PRODUCT_ID: selectedTabItems[k].getCells()[0].getTitle()
                         }
                         that.selectedUnique1.push(uniqueItems1);
                         uniqueItems1 = {};

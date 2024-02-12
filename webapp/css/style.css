@@ -49,3 +49,10 @@
     margin-top:0.15rem;
     font-size:12px !important;
   }
+
+  .sapMSticky1>.sapMListHdr, .sapMSticky2>.sapMListInfoTBarContainer, .sapMSticky3>.sapMListHdr {
+    visibility: hidden; 
+     top: 0; 
+     margin-top: -3rem !important
+     ;
+}
