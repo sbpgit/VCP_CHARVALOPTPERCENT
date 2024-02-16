@@ -17,9 +17,8 @@ sap.ui.define([
     function (Controller, JSONModel, Fragment, Filter, MessageToast, FilterOperator, Dialog, mobileLibrary, Button, Text, formatter) {
         "use strict";
         var that, oGModel;
-        // shortcut for sap.m.ButtonType
+        // shortcut for sap.m.ButtonType    
         var ButtonType = mobileLibrary.ButtonType;
-
         // shortcut for sap.m.DialogType s
         var DialogType = mobileLibrary.DialogType;
         return Controller.extend("cpapp.vcpcharvaloptpercent.controller.Home", {
@@ -199,7 +198,6 @@ sap.ui.define([
                 else {
                     MessageToast.show("Please select a Configurable Product");
                 }
-
             },
             handleClose: function () {
                 if (that.oProdList.getBinding("items")) {
