@@ -67,7 +67,7 @@
 			<OverflowToolbar>
             	<Title text="{CHAR_NAME}" />
             <ToolbarSpacer />
-				<!-- <Button icon="sap-icon://delete" id="" press="onPanelDelete" /> -->
+				<Button icon="sap-icon://delete" id="" press="onPanelDelete" />
                 <HBox visible="true" id="">
                 <Label id="" text="Product:" ></Label>
                 <Text text="{PRODUCT_ID}" id="" class="prodClass"/>

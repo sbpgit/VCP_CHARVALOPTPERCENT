@@ -11,7 +11,7 @@
                 </HBox>
                 <ToolbarSpacer id="_IDGenToolbarSpacer1"/>
                 <Button id="idAdd" text="Create" icon="sap-icon://add" press="onCreate" tooltip = "Create"/>
-                <!-- <Button id="idEdit" text="Edit" icon="sap-icon://edit" press="onUpdate" tooltip = "Edit" enabled="true"/> -->
+                <Button id="idEdit" text="Edit" icon="sap-icon://edit" press="onUpdate" tooltip = "Edit" enabled="true"/>
                 <Button id="idDelete" text="Delete" icon="sap-icon://delete" press="onDelete" tooltip = "Delete" enabled="true"/>
                 <Button class="hdrBtnMarginHdr" icon="sap-icon://sys-help" id="idNav" press="onNavPress" type="Emphasized" tooltip="Help Document"/>
                 
@@ -21,9 +21,9 @@
             <SearchField id="headSearch" liveChange="handleSearch" placeholder="Characteristic Name"/>
             <Table id="charList" items="{path: '/setDetails',sorter:{path:'PRODUCT_ID'}}" growingThreshold="1000" growingScrollToLoad="true" growing="true" mode="MultiSelect" selectionChange="onTableItemsSelect" >
                 <columns>
-                <!-- <Column id="_IDGenColumn11" hAlign="Center" vAlign="Middle">
+                <Column id="_IDGenColumn11" hAlign="Center" vAlign="Middle">
                         <Text id="_IDGenText11" text="Product" />
-                    </Column> -->
+                    </Column>
                     <Column id="_IDGenColumn1" hAlign="Center" vAlign="Middle">
                         <Text id="_IDGenText1" text="Characteristic Name" />
                     </Column>
@@ -37,7 +37,7 @@
                 <items>
                     <ColumnListItem id="_IDGenColumnListItem1">
                         <cells>
-                            <!-- <ObjectIdentifier title="{PRODUCT_ID}"/> -->
+                            <ObjectIdentifier title="{PRODUCT_ID}"/>
                             <ObjectIdentifier title="{CHAR_DESC}" text="{CHAR_NUM}" />
                             <ObjectIdentifier title="{CHARVAL_DESC}" text="{CHAR_VALUE}"/>
                             <ObjectIdentifier text="{OPT_PERCENT}"/>
