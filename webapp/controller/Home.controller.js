@@ -77,6 +77,7 @@ sap.ui.define([
                     },
                 });
             },
+            // get data from userlogin
             getUser: function () {
                 var vUser;
                 if (sap.ushell.Container) {
