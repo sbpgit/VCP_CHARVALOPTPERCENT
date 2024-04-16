@@ -113,7 +113,6 @@ sap.ui.define([
                 this.oProductList = this._oCore.byId(
                     this._valueHelpDialogProd.getId() + "-list"
                 );
-
                 // this.getOwnerComponent().getModel("BModel").callFunction("/getProductCharVal", {
                 //     method: "GET",
                 //     urlParameters: {
