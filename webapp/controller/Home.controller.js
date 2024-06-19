@@ -34,6 +34,7 @@ sap.ui.define([
                 this.prodModel.setSizeLimit(2000);
                 that.getEnable();
             },
+            // user info
             getEnable: function () {
                 var oModel = this.getOwnerComponent().getModel("BModel");
                 var vUser = this.getUser();
